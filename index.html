@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para mi lindo chico 💗</title>
+  <style>
+    /* PALETA ELEGANTE: Borgoña, Oro Cálido, Carbón y Rosa Viejo */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1e1e24 0%, #2b1820 50%, #121214 100%);
+      --card-bg: rgba(30, 27, 38, 0.88);
+      --accent-red: #c0392b;
+      --accent-gold: #f39c12;
+      --soft-rose: #d6a2ad;
+      --text-main: #f5f5f7;
+      --text-sub: #b3b3b3;
+      --border-glow: rgba(192, 57, 43, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-main);
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(243, 156, 18, 0.25);
+      border-radius: 24px;
+      padding: 35px 25px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 20px var(--border-glow);
+      text-align: center;
+      position: relative;
+    }
+
+    .step {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .step.active {
+      display: flex;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    h2 {
+      color: var(--soft-rose);
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+
+    p {
+      color: var(--text-sub);
+      line-height: 1.55;
+      font-size: 0.96rem;
+    }
+
+    .music-badge {
+      background: rgba(192, 57, 43, 0.2);
+      border: 1px solid var(--accent-red);
+      color: var(--soft-rose);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* FOTO DE LOS GATITOS CON MARCO ESPECIAL */
+    .photo-container {
+      position: relative;
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--soft-rose);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+
+    .photo-frame {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-tag {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(18, 18, 20, 0.8);
+      color: var(--soft-rose);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* MINIJUEGO BÁSQUET */
+    .hoop-container {
+      width: 100%;
+      height: 160px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 16px;
+      position: relative;
+      border: 1px dashed var(--accent-gold);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 15px;
+      overflow: hidden;
+    }
+
+    .hoop {
+      position: absolute;
+      top: 20px;
+      width: 70px;
+      height: 10px;
+      border: 4px solid var(--accent-red);
+      border-radius: 5px;
+    }
+
+    .ball {
+      font-size: 2.2rem;
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      user-select: none;
+    }
+
+    .ball.swish {
+      transform: translateY(-85px) scale(0.85);
+    }
+
+    /* BOTONES */
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+      position: relative;
+      min-height: 50px;
+    }
+
+    button {
+      background: linear-gradient(45deg, var(--accent-red), #9b2b22);
+      color: #fff;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6);
+      background: linear-gradient(45deg, #d63031, var(--accent-red));
+    }
+
+    button.secondary {
+      background: transparent;
+      border: 1px solid var(--soft-rose);
+      color: var(--soft-rose);
+      box-shadow: none;
+    }
+
+    /* BOTÓN QUE SE ESCAPA ("NO") */
+    #btn-no {
+      position: absolute;
+      background: #4a4a5a;
+      color: #ccc;
+      box-shadow: none;
+      transition: all 0.15s ease;
+      z-index: 10;
+    }
+
+    /* TEXTO DE LA CARTA SINCERA */
+    .letter-box {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 18px;
+      border-radius: 14px;
+      border-left: 3px solid var(--accent-gold);
+      text-align: left;
+      font-size: 0.92rem;
+      color: #e0e0e5;
+      line-height: 1.6;
+    }
+
+    /* CORAZÓN DE PALABRAS (LOVE) */
+    .heart-container {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      margin: 10px auto;
+    }
+
+    /* CORAZÓN DE PALABRAS ANIMADO Y DESBORDANTE */
+.heart-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 10px auto;
+}
+
+.heart-word {
+  position: absolute;
+  color: var(--soft-rose);
+  font-weight: 700;
+  font-size: 11px;
+  transform: translate(-50%, -50%) scale(0);
+  user-select: none;
+  text-shadow: 0 0 6px rgba(192, 57, 43, 0.9);
+  opacity: 0;
+  /* Aplica primero la animación de 'aparecer/llenar' y luego el 'latido' */
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, 
+             pulse 2s infinite alternate ease-in-out;
+}
+
+/* Palabras que se desbordan por los bordes */
+.heart-word.overflow {
+  color: var(--accent-gold);
+  font-size: 13px;
+  text-shadow: 0 0 8px rgba(192, 57, 43, 0.9);
+}
+
+/* Animación de entrada (brotar/llenar) */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) rotate(-15deg);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+}
+
+/* Animación constante de latido continuo */
+@keyframes pulse {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to { transform: translate(-50%, -50%) scale(1.12); }
+}
+
+    .hidden { display: none !important; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulse {
+      from { transform: translate(-50%, -50%) scale(1); }
+      to { transform: translate(-50%, -50%) scale(1.08); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- PASO 1: Bienvenida -->
+    <div id="step-1" class="step active">
+      <div class="music-badge">🎸 Solo Reservado</div>
+      <h2>Hola, mi lindo niño 💗</h2>
+      <p>Quizás no sepa tocar la guitarra como tú ni entienda del todo el Metal, pero preparé esta pequeña página combinando tu mundo con el mío especialmente para ti.</p>
+      <div class="btn-group">
+        <button onclick="nextStep(2)">Empezar recorrido ✨</button>
+      </div>
+    </div>
+
+    <!-- PASO 2: Pregunta con el Botón Imposible -->
+    <div id="step-2" class="step">
+      <div class="music-badge">⚠️ Pregunta Importante</div>
+      <h2>Una verdad indiscutible...</h2>
+      <p>¿Aceptas formalmente que eres el novio más lindo, amoroso, talentoso, precioso, hipermegafantástico, especial e inteligente del planeta?</p>
+
+      <div class="btn-group" id="trick-group" style="height: 60px; justify-content: center; align-items: center;">
+        <button onclick="nextStep(3)" style="z-index: 2;">¡Sí, totalmente! 💖</button>
+        <button id="btn-no" onmouseover="moveNoButton()" onclick="moveNoButton()">No 😜</button>
+      </div>
+    </div>
+
+    <!-- PASO 3: Minijuego de Básquet -->
+    <div id="step-3" class="step">
+      <div class="music-badge">🏀 Tiro Libre</div>
+      <h2>Tu turno en la cancha</h2>
+      <p>Haz clic en el balón para encestar y desbloquear lo que sigue.</p>
+      
+      <div class="hoop-container">
+        <div class="hoop"></div>
+        <div class="ball" id="basketball" onclick="shootBall()">🏀</div>
+      </div>
+      <p id="hoop-msg" style="font-size: 0.85rem; color: var(--accent-gold);">¡Presiona la pelota!</p>
+
+      <div class="btn-group hidden" id="step3-btn">
+        <button onclick="nextStep(4)">¡Swoosh! Continuar 👉</button>
+      </div>
+    </div>
+
+    <!-- PASO 4: Imagen de Gatitos & Carta Sincera -->
+    <div id="step-4" class="step">
+      <div class="photo-container">
+        <!-- Reemplaza foto.jpg por la imagen de tus dos gatitos -->
+        <img src="foto.jpg" alt="Gatito blanco y gatito negro" class="photo-frame" onerror="this.src='https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=400'">
+        <div class="photo-tag">Yo (Gatito no blanco) 🐈‍⬛ & Tú (Gatito blanquito) 🐱</div>
+      </div>
+
+      <h2>Lo que siento por ti...</h2>
+
+      <div class="letter-box">
+        Estar contigo siempre es divertido y lindo. Me encanta cómo eres, tu forma de ser y lo apasionado que eres con lo que te gusta.<br><br>
+        Sé que no somos perfectos y que últimamente hemos tenido nuestros problemas, pero quiero que sepas que mis ganas de estar a tu lado siguen intactas. Te quiero de verdad, con todo y nuestras diferencias, mi lindo.
+      </div>
+
+      <div class="btn-group">
+        <button onclick="showHeart()">Ver tu sorpresa final 💖</button>
+      </div>
+    </div>
+
+    <!-- PASO 5: Corazón de Palabras (LOVE) -->
+    <div id="step-5" class="step">
+      <h2>Un detalle para ti ✨</h2>
+      <p style="font-size: 0.85rem;">Gracias por ser tan lindo conmigo.</p>
+      
+      <div class="heart-container" id="heartContainer"></div>
+
+      <p style="color: var(--soft-rose); font-style: italic; margin-top: 5px;">
+        "Te quiero muchísimo, mi chico lindo."
+      </p>
+
+      <div class="btn-group">
+        <button class="secondary" onclick="resetPage()">Volver a empezar</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function nextStep(stepNumber) {
+      document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+      const target = document.getElementById(`step-${stepNumber}`);
+      if (target) target.classList.add('active');
+    }
+
+    // Lógica para que el botón "NO" se escape
+    function moveNoButton() {
+      const btnNo = document.getElementById('btn-no');
+      
+      // Coordenadas aleatorias dentro del rango de la tarjeta
+      const randomX = Math.floor(Math.random() * 220) - 110; 
+      const randomY = Math.floor(Math.random() * 120) - 60;
+
+      btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    // Lógica del juego de Básquet
+    function shootBall() {
+      const ball = document.getElementById('basketball');
+      const msg = document.getElementById('hoop-msg');
+      const btn = document.getElementById('step3-btn');
+
+      ball.classList.add('swish');
+      msg.innerText = "¡Puntos para el mejor novio! 🏆";
+      msg.style.color = "#2ed573";
+      
+      setTimeout(() => {
+        btn.classList.remove('hidden');
+      }, 500);
+    }
+
+  // Corazón que se va llenando progresivamente y se desborda de "LOVE"
+function showHeart() {
+  nextStep(5);
+  const container = document.getElementById('heartContainer');
+  container.innerHTML = '';
+
+  const word = "LOVE U";
+  const scale = 11;
+  let delayIndex = 0;
+
+  // PARTE 1: Formar el contorno del corazón
+  const borderPoints = 70;
+  for (let i = 0; i < borderPoints; i++) {
+    const t = (i / borderPoints) * Math.PI * 2;
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+
+    createWordSpan(x * scale, y * scale, delayIndex * 0.04, false);
+    delayIndex++;
+  }
+
+  // PARTE 2: Llenar el interior progresivamente
+  const innerLayers = 6;
+  for (let layer = innerLayers; layer >= 1; layer--) {
+    const layerScale = scale * (layer / innerLayers);
+    const pointsInLayer = Math.floor(borderPoints * (layer / innerLayers));
+    
+    for (let i = 0; i < pointsInLayer; i++) {
+      const t = (i / pointsInLayer) * Math.PI * 2;
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+
+      createWordSpan(x * layerScale, y * layerScale, delayIndex * 0.03, false);
+      delayIndex++;
+    }
+  }
+
+  // PARTE 3: Palabras que se desbordan (salen flotando del corazón hacia afuera)
+  const overflowPoints = 25;
+  for (let i = 0; i < overflowPoints; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const distance = (scale * 14) + (Math.random() * 40); // Salen fuera del límite
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+
+    createWordSpan(x, y, delayIndex * 0.035, true);
+    delayIndex++;
+  }
+
+  // Función auxiliar para crear cada palabra
+  function createWordSpan(x, y, delay, isOverflow) {
+    const span = document.createElement('span');
+    span.className = `heart-word ${isOverflow ? 'overflow' : ''}`;
+    span.innerText = word;
+
+    // Posición centrada (160px X, 140px Y)
+    span.style.left = `${160 + x}px`;
+    span.style.top = `${140 + y}px`;
+    
+    // Animación de aparición escalonada
+    span.style.animationDelay = `${delay}s, ${delay + 0.5}s`;
+
+    container.appendChild(span);
+  }
+}
+
+    // Reiniciar
+    function resetPage() {
+      const ball = document.getElementById('basketball');
+      const msg = document.getElementById('hoop-msg');
+      const btn = document.getElementById('step3-btn');
+      const btnNo = document.getElementById('btn-no');
+      
+      ball.classList.remove('swish');
+      msg.innerText = "¡Presiona la pelota!";
+      msg.style.color = "var(--accent-gold)";
+      btn.classList.add('hidden');
+      btnNo.style.transform = "translate(0px, 0px)";
+
+      nextStep(1);
+    }
+  </script>
+</body>
+</html>
